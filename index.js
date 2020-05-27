@@ -54,7 +54,7 @@ function f_help(msg) {
 		                \nCommands:                                                             \
 		                \n1. /cf [amount]                                                       \
 		                \n2. /cf accept                                                         \
-                        \n3. /cf cancel                                                         \
+                       		\n3. /cf cancel                                                         \
 		                \n4. /bal                                                               \
 		                \n5. /baltop                                                            \
 		                \n----------------------------------------------------------------------   `**")
@@ -180,11 +180,8 @@ function f_cf(msg) {
 function f_give(msg) {
     id = msg.author.id;
 	sql.get('SELECT * FROM userData WHERE userId =?', [id]).then(row => {
-					
 		var cash = parseInt(splitMessage[1]) + parseInt(row.money);
-                
 		sql.run('UPDATE userData SET money=? WHERE userId=?', [cash, id]);
-					
 	}).catch(() => {
 		console.error;
 	});
@@ -204,22 +201,18 @@ function f_baltop() {
 				ret = "**`----------------------------------------------------------------------\n";
 				rows.forEach(function (row) {
 					ret+=(i + ": " + row.username + ": " + row.money + "\n");
-                    i=i+1
+                   			i=i+1
 				})
 				ret +="----------------------------------------------------------------------`**"
 				main_channel.send(ret);
 			});
 }
 
-
-
 //function initialize() {
 //	sql.run("CREATE TABLE IF NOT EXISTS userData (userId TEXT, username TEXT, money INTEGER, UNIQUE(userId))").then(() => {
 //		sql.run("INSERT INTO userData (userId, username, money) VALUES (?, ?, ?)", [msg.author.id, sender.username, 0]);
 //	});
 //}
-
-
 
 client.on('guildMemberAdd', member=>{
 	member.send('I recommend skipping');
@@ -235,8 +228,6 @@ client.on('disconnect', event=> {
 		activeCF = false;
 		cf = 0;
     }
-
 })
-
 
 client.login(process.env.BOT_TOKEN);
